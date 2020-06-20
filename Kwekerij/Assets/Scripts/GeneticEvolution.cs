@@ -3,24 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GeneticEvolution : MonoBehaviour
+namespace VOSSK_GeneticEvolution
 {
-    //Chromosome (string): Solution
-    //Gene (bits): Part of solution
-    //Locus: Poisition of gene
-    //Alleles: Value of gene
-    //Phenotype: Decoded solution
-    //Genotype: Encoded solution
-
-    // Start is called before the first frame update
-    void Start()
+    public class GeneticEvolution
     {
-        
-    }
+        //Chromosome (string): Solution
+        //Gene (bits): Part of solution
+        //Locus: Poisition of gene
+        //Alleles: Value of gene
+        //Phenotype: Decoded solution
+        //Genotype: Encoded solution
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private List<GeneticEntity> population = new List<GeneticEntity>();
+        private List<GeneticEntity> matingPool = new List<GeneticEntity>();
+
+       
+
+        public GeneticEvolution(List<GeneticEntity> pPopulation)
+        {
+            population = pPopulation;
+        }
+
+
+        public void Evolve(IMatingPoolSelector pPoolSelector)
+        {
+            int size = 0;
+            pPoolSelector.Select(population, size);
+        }
+
+
+        //Crossover
+        //
     }
 }
