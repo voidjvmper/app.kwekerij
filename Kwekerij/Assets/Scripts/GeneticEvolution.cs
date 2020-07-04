@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace VOSSK_GeneticEvolution
+namespace VUSSK_GeneticEvolution
 {
-    public class GeneticEvolution
+    public static class GeneticEvolution
     {
         //Chromosome (string): Solution
         //Gene (bits): Part of solution
@@ -14,25 +14,15 @@ namespace VOSSK_GeneticEvolution
         //Phenotype: Decoded solution
         //Genotype: Encoded solution
 
-        private List<GeneticEntity> population = new List<GeneticEntity>();
-        private List<GeneticEntity> matingPool = new List<GeneticEntity>();
-
-       
-
-        public GeneticEvolution(List<GeneticEntity> pPopulation)
+        public static List<GeneticEntity> Evolve(List<GeneticEntity> pPopulation, int pEvolvedPopulationSize, IMatingPoolSelector pPoolSelector, IBreedingPairSelector pPairSelector, ICrossoverOperator pOperator)
         {
-            population = pPopulation;
+            List<GeneticEntity> evolvedPopulation = new List<GeneticEntity>();
+            evolvedPopulation = pPoolSelector.SelectPool(pPopulation, pEvolvedPopulationSize);
+            evolvedPopulation = pPairSelector.SelectPairs(evolvedPopulation);
+            evolvedPopulation = pOperator.Crossover(evolvedPopulation);
+            CrossoverOperatorUniform cou = new CrossoverOperatorUniform()
+            return evolvedPopulation;
         }
 
-
-        public void Evolve(IMatingPoolSelector pPoolSelector)
-        {
-            int size = 0;
-            pPoolSelector.Select(population, size);
-        }
-
-
-        //Crossover
-        //
     }
 }

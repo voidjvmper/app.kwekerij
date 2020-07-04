@@ -84,7 +84,7 @@ namespace TimSort
         /// of the minimum stack length required as a function of the length
         /// of the array being sorted and the minimum merge sequence length.
         /// </summary>
-        private static const int MIN_MERGE = 32;
+        private const int MIN_MERGE = 32;
         /// <summary>
         /// The array being sorted.
         /// </summary>

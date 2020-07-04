@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace VUSSK_GeneticEvolution
 {
-    public interface IMatingPoolSelector
+    public interface IBreedingPairSelector
     {
-        List<GeneticEntity> SelectPool(List<GeneticEntity> pPopulation, int pSize);
+        List<GeneticEntity> SelectPairs(List<GeneticEntity> pBreedingPairs);
     }
 }

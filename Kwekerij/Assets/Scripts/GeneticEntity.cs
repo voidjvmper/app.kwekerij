@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace VOSSK_GeneticEvolution
+namespace VUSSK_GeneticEvolution
 {
     public class GeneticEntity : IComparer
     {
