@@ -20,7 +20,6 @@ namespace VUSSK_GeneticEvolution
             evolvedPopulation = pPoolSelector.SelectPool(pPopulation, pEvolvedPopulationSize);
             evolvedPopulation = pPairSelector.SelectPairs(evolvedPopulation);
             evolvedPopulation = pOperator.Crossover(evolvedPopulation);
-            CrossoverOperatorUniform cou = new CrossoverOperatorUniform()
             return evolvedPopulation;
         }
 

@@ -7,54 +7,21 @@ namespace VUSSK_GeneticEvolution
     /// <summary>
     /// This Crossover Operator creates a list of children whose chromosomes have been crossed at a supplied or randomly chosen single point in their parent's chromosome.
     /// </summary>
-    public class CrossoverOperatorOnePoint : ICrossoverOperator
+    public class CrossoverOperatorOnePoint : CrossoverOperator
     {
-        int crossoverPoint = int.MinValue;
         public CrossoverOperatorOnePoint(int pCrossoverPoint = int.MinValue)
         {
+            crossoverPoint = pCrossoverPoint;
+        }        
 
-        }
-
-        /// <summary>
-        /// This Crossover Operator returns a list of children whose chromosomes have been crossed at a supplied or randomly chosen single point in their parent's chromosome.
-        /// </summary>
-        /// <param name="pBreedingPairs"></param>
-        /// <returns>List of GeneticEntity</returns>
-        public List<GeneticEntity> Crossover(List<GeneticEntity> pBreedingPairs)
+        public override void ProcessChromosome(Vector2Int pCrossoverIndex, List<GeneticEntity> pBreedingPairs, int pParentPairIndex, int pGeneIndex, ref int[] pChildAChromosome, ref int[] pChildBChromosome)
         {
-            List<GeneticEntity> children = new List<GeneticEntity>();
+            //x contains parent A's index. y contains parent B's index
+            pCrossoverIndex.x = pParentPairIndex; pCrossoverIndex.y = pParentPairIndex + 1;
+            bool isBelowCrossoverPoint = pGeneIndex < crossoverPoint;
 
-            /*of 6
-             0: 0 1
-             2: 2 3
-             4: 4 5*/
-            
-            //Run through our parent pairs, for half the length of the array, but jumping two steps each iteration
-            for (int i = 0; i < pBreedingPairs.Count / 2; i = i + 2)
-            {
-                int[] childAChromosome = new int[pBreedingPairs[i].Chromosome.Length];
-                int[] childBChromosome = new int[pBreedingPairs[i].Chromosome.Length];
-
-                //Randomly select a crossover point, if one is not supplied
-                crossoverPoint = crossoverPoint == int.MinValue ? Random.Range(1, childAChromosome.Length) : crossoverPoint;
-                Vector2Int crossoverIndex = new Vector2Int();
-
-                //Run through chromosome
-                for (int j = 0; j < childAChromosome.Length; j++)
-                {
-                    //x contains parent A's index. y contains parent B's index
-                    crossoverIndex.x = i; crossoverIndex.y = i + 1;
-                    bool isBelowCrossoverPoint = j < crossoverPoint;
-
-                    childAChromosome[j] = pBreedingPairs[crossoverIndex[System.Convert.ToInt32(isBelowCrossoverPoint)]].Chromosome[j];
-                    childBChromosome[j] = pBreedingPairs[crossoverIndex[System.Convert.ToInt32(!isBelowCrossoverPoint)]].Chromosome[j];
-                }
-
-                children.Add(new GeneticEntity(childAChromosome, 0.0f));
-            }
-
-            return pBreedingPairs;
-
+            pChildAChromosome[pGeneIndex] = pBreedingPairs[pCrossoverIndex[System.Convert.ToInt32(isBelowCrossoverPoint)]].Chromosome[pGeneIndex];
+            pChildBChromosome[pGeneIndex] = pBreedingPairs[pCrossoverIndex[System.Convert.ToInt32(!isBelowCrossoverPoint)]].Chromosome[pGeneIndex];
         }
     }
 

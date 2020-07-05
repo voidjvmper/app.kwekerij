@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace VUSSK_GeneticEvolution
 {
-    public class CrossoverOperatorWholeArithmetic : CrossoverOperatorArithmetic
+    public class CrossoverOperatorSingleArithmetic : CrossoverOperatorArithmetic
     {
         /// <summary>
-        /// This Crossover Operator creates a list of children whose genes are a weighted average of both parents from the breeding parents pair.
+        /// This Crossover Operator creates a list of children whose genes are identical to one parent of the breeding pair except at the crossover point where that gene is a weighted average of both parents.
         /// Child weighting should range between [0.0f, 1.0f], with the extremes fully favouring the genes of parent A or parent B respectively. If both children use the standard 0.5f weight, both children will be identical copies of one another and the perfect average of both parents.
         /// </summary>
         /// <param name="pChildAWeighting"></param>
-        /// <param name="pChildBAWeighting"></param>
-        public CrossoverOperatorWholeArithmetic(float pChildAWeighting = 0.5f, float pChildBWeighting = 0.5f) : base (pChildAWeighting, pChildBWeighting)
+        /// <param name="pChildBWeighting"></param>
+        public CrossoverOperatorSingleArithmetic(float pChildAWeighting = 0.5f, float pChildBWeighting = 0.5f) : base(pChildAWeighting, pChildBWeighting)
         {
-           
+
         }
         // Start is called before the first frame update
         void Start()
@@ -27,7 +27,6 @@ namespace VUSSK_GeneticEvolution
         {
 
         }
-      
 
         public override void ProcessChromosome(Vector2Int pCrossoverIndex, List<GeneticEntity> pBreedingPairs, int pParentPairIndex, int pGeneIndex, ref int[] pChildAChromosome, ref int[] pChildBChromosome)
         {
@@ -37,8 +36,9 @@ namespace VUSSK_GeneticEvolution
             int geneA = pBreedingPairs[pCrossoverIndex[0]].Chromosome[pGeneIndex];
             int geneB = pBreedingPairs[pCrossoverIndex[1]].Chromosome[pGeneIndex];
 
-            pChildAChromosome[pGeneIndex] = DoArithmetic(geneA, geneB, childWeighting.x);
-            pChildBChromosome[pGeneIndex] = DoArithmetic(geneA, geneB, childWeighting.y);
+            pChildAChromosome[pGeneIndex] = pGeneIndex == crossoverPoint ? geneA : DoArithmetic(geneA, geneB, childWeighting.x);
+            pChildBChromosome[pGeneIndex] = pGeneIndex == crossoverPoint ? geneB : DoArithmetic(geneA, geneB, childWeighting.y);
         }
     }
 }
+
