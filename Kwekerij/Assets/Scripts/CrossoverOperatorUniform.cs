@@ -27,8 +27,8 @@ namespace VUSSK_GeneticEvolution
             float roll = Random.Range(0.0f, 1.0f);
             bool cross = roll > parentWeighting;
 
-            pChildAChromosome[pGeneIndex] = pBreedingPairs[pCrossoverIndex[System.Convert.ToInt32(cross)]].Chromosome[j];
-            pChildBChromosome[pGeneIndex] = pBreedingPairs[pCrossoverIndex[System.Convert.ToInt32(!cross)]].Chromosome[j];
+            pChildAChromosome[pGeneIndex] = pBreedingPairs[pCrossoverIndex[System.Convert.ToInt32(cross)]].Chromosome[pGeneIndex];
+            pChildBChromosome[pGeneIndex] = pBreedingPairs[pCrossoverIndex[System.Convert.ToInt32(!cross)]].Chromosome[pGeneIndex];
         }
      }
 }
