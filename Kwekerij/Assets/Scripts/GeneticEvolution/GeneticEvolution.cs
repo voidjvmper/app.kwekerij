@@ -15,7 +15,7 @@ namespace VUSSK_GeneticEvolution
         //Phenotype: Decoded solution
         //Genotype: Encoded solution
 
-        public static List<GeneticEntity> Evolve(List<GeneticEntity> pPopulation, int pEvolvedPopulationSize, IMatingPoolSelector pPoolSelector, IBreedingPairSelector pPairSelector, ICrossoverOperator pOperator)
+        public static List<GeneticEntity> Evolve(ref List<GeneticEntity> pPopulation, int pEvolvedPopulationSize, IMatingPoolSelector pPoolSelector, IBreedingPairSelector pPairSelector, ICrossoverOperator pOperator)
         {
             List<GeneticEntity> evolvedPopulation = new List<GeneticEntity>();
             evolvedPopulation = pPoolSelector.SelectPool(pPopulation, pEvolvedPopulationSize);

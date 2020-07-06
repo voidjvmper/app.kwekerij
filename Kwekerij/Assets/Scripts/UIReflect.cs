@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Shop.Events;
+using TimSort;
+using VUSSK_GeneticEvolution;
 
 public class UIReflect : MonoBehaviour
 {
@@ -18,6 +20,8 @@ public class UIReflect : MonoBehaviour
 
     [SerializeField] private Text progressOutput;
 
+    [SerializeField] private Text generationHighOutput;
+    [SerializeField] private Slider generationHighSlider;
     [SerializeField] private Text generationAverageOutput;
     [SerializeField] private Slider generationAverageSlider;
     [SerializeField] private Text bedOutput;
@@ -27,12 +31,41 @@ public class UIReflect : MonoBehaviour
     void Start()
     {
         EventQueue.Subscribe(EventQueue.EventType.Soil_Update, UpdateSoilOutputs);
+        EventQueue.Subscribe(EventQueue.EventType.Plot_Start, StartPlot);
+        EventQueue.Subscribe(EventQueue.EventType.Plot_End, EndPlot);
+        EventQueue.Subscribe(EventQueue.EventType.Plot_Reset, ResetPlot);
+        EventQueue.Subscribe(EventQueue.EventType.BroadcastGeneration, BroadcastGeneration);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    private void StartPlot(object sender, EventArgs e)
+    {
+        progressOutput.color = swatch[1];
+        progressOutput.text = "Running...";
+    }
+
+    private void EndPlot(object sender, EventArgs e)
+    {
+        progressOutput.color = swatch[2];
+        progressOutput.text = "Completed.";
+    }
+
+    private void ResetPlot(object sender, EventArgs e)
+    {
+        progressOutput.color = swatch[0];
+        progressOutput.text = "Ready.";
+    }
+
+    private void BroadcastGeneration(object sender, EventArgs e)
+    {
+        generationHighOutput.text = ((GenerationArgs)e).high.ToString();
+        generationHighSlider.value = ((GenerationArgs)e).high;
+        generationAverageOutput.text = ((GenerationArgs)e).average.ToString();
+        generationAverageSlider.value = ((GenerationArgs)e).average;
     }
 
     private void UpdateSoilOutputs(object sender, EventArgs e)
