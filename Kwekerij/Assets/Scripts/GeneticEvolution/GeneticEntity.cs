@@ -31,7 +31,10 @@ namespace VUSSK_GeneticEvolution
             return (IComparer<GeneticEntity>)new GeneticEntity();
         }
 
-        
+        public virtual void ComputeFitness()
+        {
+
+        }
 
         public int Compare(object a, object b)
         {
