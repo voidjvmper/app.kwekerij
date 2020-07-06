@@ -586,7 +586,6 @@ GameObject:
   m_Component:
   - component: {fileID: 230603745}
   - component: {fileID: 230603744}
-  - component: {fileID: 230603743}
   - component: {fileID: 230603742}
   m_Layer: 0
   m_Name: Garden
@@ -607,6 +606,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2039611645ee8d142ae8d1c1b50b5e71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testbench: {fileID: 921336569}
+  seed: 10
+  soil: {fileID: 0}
   patches:
   - {fileID: 1315330069}
   - {fileID: 721448780}
@@ -623,19 +625,7 @@ MonoBehaviour:
   - {fileID: 1869502717}
   - {fileID: 1796756865}
   - {fileID: 943579218}
---- !u!114 &230603743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 230603741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bf8e8260706bd243a2d2c091051b82c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  seed: 0
+  numberOfBeds: 0
 --- !u!114 &230603744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3249,6 +3239,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 920137547}
   m_CullTransparentMesh: 0
+--- !u!1 &921336568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 921336570}
+  - component: {fileID: 921336569}
+  m_Layer: 0
+  m_Name: Testbench
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &921336569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921336568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d5749151bfbcc946aa37e61e32c3bcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crossoverOperator: 0
+  matingPoolSelector: 0
+  breedingPairSelector: 0
+--- !u!4 &921336570
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921336568}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 555.89716, y: 300.12378, z: -11.461352}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &925980254
 GameObject:
   m_ObjectHideFlags: 0

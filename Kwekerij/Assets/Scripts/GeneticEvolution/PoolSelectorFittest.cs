@@ -11,14 +11,7 @@ namespace VUSSK_GeneticEvolution
     /// </summary>
     public class PoolSelectorFittest : IMatingPoolSelector
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
+        public PoolSelectorFittest()
         {
 
         }

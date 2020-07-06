@@ -7,7 +7,7 @@ namespace VUSSK_GeneticEvolution
     public class GeneticEntity : IComparer
     {
         private int[] chromosome;
-        private float fitness;
+        protected float fitness;
 
         public GeneticEntity(int[] pChromosome, float pFitness)
         {
@@ -34,6 +34,21 @@ namespace VUSSK_GeneticEvolution
         public virtual void ComputeFitness()
         {
 
+        }
+
+        protected void UpdateFitness(float pFitness)
+        {
+            fitness = pFitness;
+        }
+        public static int[] GenerateRandomChromosome(Vector2Int pMinMax, int pLength, int pRandomSeed)
+        {
+            Random.InitState(pRandomSeed);
+            int[] chromosome = new int[pLength];
+            for (int i = 0; i < chromosome.Length; i++)
+            {
+                chromosome[i] = Random.Range(pMinMax.x, pMinMax.y);
+            }
+            return chromosome;
         }
 
         public int Compare(object a, object b)

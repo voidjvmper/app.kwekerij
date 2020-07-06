@@ -1,21 +1,27 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using VUSSK_GeneticEvolution;
+using Shop.Events;
+using System.Linq;
 
 public class Garden : MonoBehaviour
 {
+    [SerializeField] Testbench testbench;
     [SerializeField] private int seed;
+    [SerializeField] private Soil soil;
     [SerializeField] private Patch[] patches;
     //TODO: Replace
-    [SerializeField] private Plant[] availableSpecies;
+    [SerializeField] public Plant[] availableSpecies;
     [Range(0, 50)]
     [SerializeField] private int numberOfBeds;
-    private Bed[] beds;
+    private List<GeneticEntity> beds;
     private bool initialised = false;
     // Start is called before the first frame update
     void Start()
     {
+        soil = GetComponent<Soil>();
         CreateBeds();
     }
 
@@ -32,49 +38,45 @@ public class Garden : MonoBehaviour
 
     public void EvolvePopulation()
     {
+        EventQueue.QueueEvent(EventQueue.EventType.Plot_Start, this, new TimeArgs(Time.time));
         if (!initialised)
         {
             CreateBeds();
         }
-        for (int i = 0; i < beds.Length; i++)
+        for (int i = 0; i < beds.Count; i++)
         {
             beds[i].ComputeFitness();
-
         }
-        GeneticEvolution.Evolve(beds, beds.Length, );
+        GeneticEvolution.Evolve(beds, beds.Count, testbench.GetUsedMatingPoolSelector(), testbench.GetUsedBreedingPairSelector(), testbench.GetUsedCrossoverOperator()); 
+        EventQueue.QueueEvent(EventQueue.EventType.Plot_End, this, new TimeArgs(Time.time));
         //if !init
         //create
         //geneticevo.evolve
     }
 
-    private int[] GenerateRandomChromosome(Vector2Int pMinMax, int pLength, int pRandomSeed)
-    {
-       Random.InitState(pRandomSeed);
-        int[] chromosome = new int[pLength];
-        for (int i = 0; i < chromosome.Length; i++)
-        {
-            chromosome[i] = Random.Range(pMinMax.x, pMinMax.y);
-        }
-        return chromosome;
-    }
 
-    public void FillBeds(int[] pChromosome = null)
+    /*public void FillBeds(int[] pChromosome = null)
     {
-        for (int i = 0; i < beds.Length; i++)
+        for (int i = 0; i < beds.Count; i++)
         {
-            int[] chromosome = pChromosome == null ? GenerateRandomChromosome(new Vector2Int(0, 4), patches.Length, seed) : pChromosome;
+            int[] chromosome = pChromosome == null ? GeneticEntity.GenerateRandomChromosome(new Vector2Int(0, 4), patches.Length, seed) : pChromosome;
             beds[i] = new Bed(chromosome, 0.0f, patches);
         }
-    }
+    }*/
 
     public void CreateBeds(int[] pChromosome = null)
     {
-        beds = new Bed[numberOfBeds];
-        for (int i = 0; i < beds.Length; i++)
+        beds = new List<GeneticEntity>();
+        for (int i = 0; i < beds.Count; i++)
         {
-            int[] chromosome = pChromosome == null ? GenerateRandomChromosome(new Vector2Int(0, 4), patches.Length, seed) : pChromosome;
-            beds[i] = new Bed(chromosome, 0.0f, patches);
+            int[] chromosome = pChromosome == null ? GeneticEntity.GenerateRandomChromosome(new Vector2Int(0, 4), patches.Length, seed) : pChromosome;
+            beds.Add(new Bed(chromosome, 0.0f, this, patches));
         }
         initialised = true;
+    }
+
+    public Soil Soil
+    {
+        get { return soil; }
     }
 }

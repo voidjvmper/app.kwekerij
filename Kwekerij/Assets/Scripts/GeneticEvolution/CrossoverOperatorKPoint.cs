@@ -15,7 +15,7 @@ namespace VUSSK_GeneticEvolution
         private int timesCrossed = 0;
         private bool crossing = true;
 
-        public CrossoverOperatorKPoint(int pNumberOfCrosses, int[] pCrossoverPoints = null)
+        public CrossoverOperatorKPoint(int pNumberOfCrosses = 2, int[] pCrossoverPoints = null)
         {
             numberOfCrosses = pNumberOfCrosses;
             crossoverPoints = pCrossoverPoints;

@@ -24,4 +24,17 @@ public class Soil : MonoBehaviour
     {
         
     }
+
+    public float ClayPercentage
+    { get { return clayPercentage; } }
+
+    public float SiltPercentage
+    { get { return siltPercentage; } }
+
+    public float SandPercentage
+    { get { return sandPercentage; } }
+
+    public float pH
+    { get { return soil_pH; } }
+
 }
