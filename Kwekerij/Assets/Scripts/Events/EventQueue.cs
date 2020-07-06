@@ -13,7 +13,9 @@ namespace Shop.Events
                                 Patch_Select,
                                 Patch_Update,
                                 Plot_Start,
-                                Plot_End };
+                                Plot_End,
+                                Plot_Reset,
+                                BroadcastGeneration};
 
         //Event List
         public static event EventHandler SoilUpdateEvent;
@@ -22,6 +24,9 @@ namespace Shop.Events
         public static event EventHandler PatchUpdateEvent;
         public static event EventHandler PlotStartEvent;
         public static event EventHandler PlotEndEvent;
+        public static event EventHandler PlotResetEvent;
+
+        public static event EventHandler BroadcastGenerationEvent;
 
         private static Dictionary<EventType, EventHandler> typeHandlerPair = new Dictionary<EventType, EventHandler>();
 
@@ -72,6 +77,9 @@ namespace Shop.Events
 
             typeHandlerPair.Add(EventType.Plot_Start, PlotStartEvent);
             typeHandlerPair.Add(EventType.Plot_End, PlotEndEvent);
+            typeHandlerPair.Add(EventType.Plot_Reset, PlotResetEvent);
+
+            typeHandlerPair.Add(EventType.BroadcastGeneration, BroadcastGenerationEvent);
         }
 
         private static void InitialiseQueue()

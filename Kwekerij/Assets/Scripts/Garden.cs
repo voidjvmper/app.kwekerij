@@ -5,6 +5,7 @@ using UnityEngine;
 using VUSSK_GeneticEvolution;
 using Shop.Events;
 using System.Linq;
+using TimSort;
 
 public class Garden : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class Garden : MonoBehaviour
     public void ResetPopulation()
     {
         CreateBeds();
+        EventQueue.QueueEvent(EventQueue.EventType.Plot_Reset, this, new TimeArgs(Time.time));
     }
 
     public void EvolvePopulation()
@@ -47,8 +49,16 @@ public class Garden : MonoBehaviour
         {
             beds[i].ComputeFitness();
         }
-        GeneticEvolution.Evolve(beds, beds.Count, testbench.GetUsedMatingPoolSelector(), testbench.GetUsedBreedingPairSelector(), testbench.GetUsedCrossoverOperator()); 
+        GeneticEvolution.Evolve(ref beds, beds.Count, testbench.GetUsedMatingPoolSelector(), testbench.GetUsedBreedingPairSelector(), testbench.GetUsedCrossoverOperator()); 
         EventQueue.QueueEvent(EventQueue.EventType.Plot_End, this, new TimeArgs(Time.time));
+        TimSort<GeneticEntity>.sort(beds.ToArray(), GeneticEntity.CompareFitness());
+        float averageFitness = 0.0f;
+        for (int i = 0; i < beds.Count; i++)
+        {
+            averageFitness += beds[i].Fitness;
+        }
+        averageFitness /= beds.Count;
+        EventQueue.QueueEvent(EventQueue.EventType.BroadcastGeneration, this, new GenerationArgs(beds, beds[0].Fitness, averageFitness));
         //if !init
         //create
         //geneticevo.evolve
