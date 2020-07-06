@@ -23,6 +23,28 @@ public class Plant : MonoBehaviour
     [Range(0, 100)]
     [SerializeField] private float sandPercentage;
 
+    public int SunlightHours
+    {
+        get { return sunHours; }
+    }
 
+    public int SunlightStrength
+    {
+        get { return sunStrength; }
+    }
+
+    public float PHPreference
+    {
+        get { return pHPreference; }
+    }
+
+    public float ClayPercentage
+    { get { return clayPercentage; } }
+
+    public float SiltPercentage
+    { get { return siltPercentage; } }
+
+    public float SandPercentage
+    { get { return sandPercentage; } }
 
 }

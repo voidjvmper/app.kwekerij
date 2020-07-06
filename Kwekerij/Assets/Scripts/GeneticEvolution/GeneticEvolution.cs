@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Shop.Events;
 
 namespace VUSSK_GeneticEvolution
 {
@@ -20,6 +21,7 @@ namespace VUSSK_GeneticEvolution
             evolvedPopulation = pPoolSelector.SelectPool(pPopulation, pEvolvedPopulationSize);
             evolvedPopulation = pPairSelector.SelectPairs(evolvedPopulation);
             evolvedPopulation = pOperator.Crossover(evolvedPopulation);
+            
             return evolvedPopulation;
         }
 

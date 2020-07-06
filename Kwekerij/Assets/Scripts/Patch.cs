@@ -20,4 +20,14 @@ public class Patch : MonoBehaviour
     {
         
     }
+
+    public int SunlightHours
+    {
+        get { return sunlightHours; }
+    }
+
+    public int SunlightStrength
+    {
+        get { return sunlightStrength; }
+    }
 }

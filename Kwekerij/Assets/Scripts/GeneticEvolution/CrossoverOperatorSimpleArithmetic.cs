@@ -12,7 +12,7 @@ namespace VUSSK_GeneticEvolution
         /// Child weighting should range between [0.0f, 1.0f], with the extremes fully favouring the genes of parent A or parent B respectively. If both children use the standard 0.5f weight, both children will be identical copies of one another and the perfect average of both parents.
         /// </summary>
         /// <param name="pCrossoverPoint"></param>
-        public CrossoverOperatorSimpleArithmetic(int pCrossoverPoint)
+        public CrossoverOperatorSimpleArithmetic(int pCrossoverPoint = int.MinValue)
         {
             crossoverPoint = pCrossoverPoint;
         }
