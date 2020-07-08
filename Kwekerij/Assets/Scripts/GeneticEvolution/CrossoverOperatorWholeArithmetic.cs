@@ -29,7 +29,7 @@ namespace VUSSK_GeneticEvolution
         }
       
 
-        public override void ProcessChromosome(Vector2Int pCrossoverIndex, List<GeneticEntity> pBreedingPairs, int pParentPairIndex, int pGeneIndex, ref int[] pChildAChromosome, ref int[] pChildBChromosome)
+        public override void ProcessChromosome<T>(Vector2Int pCrossoverIndex, List<T> pBreedingPairs, int pParentPairIndex, int pGeneIndex, ref int[] pChildAChromosome, ref int[] pChildBChromosome)
         {
             //x contains parent A's index. y contains parent B's index
             pCrossoverIndex.x = pParentPairIndex; pCrossoverIndex.y = pParentPairIndex + 1;

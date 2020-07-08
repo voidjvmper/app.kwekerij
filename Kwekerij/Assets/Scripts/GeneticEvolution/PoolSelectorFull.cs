@@ -19,7 +19,7 @@ public class PoolSelectorFull : IMatingPoolSelector
     /// <param name="pPopulation"></param>
     /// <param name="pSize"></param>
     /// <returns>List of GeneticEntity</returns>
-    public List<GeneticEntity> SelectPool(List<GeneticEntity> pPopulation, int pSize)
+    public List<T> SelectPool<T>(List<T> pPopulation, int pSize) where T: GeneticEntity
     {
         return pPopulation;
     }

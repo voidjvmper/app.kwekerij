@@ -6,7 +6,7 @@ public class Patch : MonoBehaviour
 {
     [Range(0, 24)]
     [SerializeField] private int sunlightHours;
-    [Range(0, 3)]
+    [Range(1, 4)]
     [SerializeField] private int sunlightStrength;
     private Plant plant;
     // Start is called before the first frame update
@@ -30,4 +30,8 @@ public class Patch : MonoBehaviour
     {
         get { return sunlightStrength; }
     }
+
+    public Plant Plant
+    { get { return plant; } }
+
 }

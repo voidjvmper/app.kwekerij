@@ -10,15 +10,18 @@ namespace Shop.Events
     public static class EventQueue
     {
         public enum EventType { Soil_Update,
+                                Sun_Update,
                                 Patch_Select,
                                 Patch_Update,
                                 Plot_Start,
                                 Plot_End,
                                 Plot_Reset,
+                                BroadcastBeginGenerating,
                                 BroadcastGeneration};
 
         //Event List
         public static event EventHandler SoilUpdateEvent;
+        public static event EventHandler SunUpdateEvent;
         public static event EventHandler PatchSelectEvent;
 
         public static event EventHandler PatchUpdateEvent;
@@ -27,6 +30,7 @@ namespace Shop.Events
         public static event EventHandler PlotResetEvent;
 
         public static event EventHandler BroadcastGenerationEvent;
+        public static event EventHandler BroadcastBeginGenerating;
 
         private static Dictionary<EventType, EventHandler> typeHandlerPair = new Dictionary<EventType, EventHandler>();
 
@@ -72,8 +76,12 @@ namespace Shop.Events
         private static void InitialisePairings()
         {
             typeHandlerPair.Add(EventType.Soil_Update, SoilUpdateEvent);
+            typeHandlerPair.Add(EventType.Sun_Update, SunUpdateEvent);
+
             typeHandlerPair.Add(EventType.Patch_Select, PatchSelectEvent);
             typeHandlerPair.Add(EventType.Patch_Update, PatchUpdateEvent);
+
+            typeHandlerPair.Add(EventType.BroadcastBeginGenerating, BroadcastBeginGenerating);
 
             typeHandlerPair.Add(EventType.Plot_Start, PlotStartEvent);
             typeHandlerPair.Add(EventType.Plot_End, PlotEndEvent);

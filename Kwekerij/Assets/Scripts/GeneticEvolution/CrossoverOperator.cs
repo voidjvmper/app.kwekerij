@@ -7,21 +7,15 @@ namespace VUSSK_GeneticEvolution
     public class CrossoverOperator : ICrossoverOperator
     {
         protected int crossoverPoint = int.MinValue;
-        // Start is called before the first frame update
-        void Start()
+        
+        public CrossoverOperator()
         {
 
         }
 
-        // Update is called once per frame
-        void Update()
+        public List<T> Crossover<T>(List<T> pBreedingPairs) where T: GeneticEntity
         {
-
-        }
-
-        public List<GeneticEntity> Crossover(List<GeneticEntity> pBreedingPairs)
-        {
-            List<GeneticEntity> children = new List<GeneticEntity>();
+            List<T> children = new List<T>();
 
             /*of 6
              0: 0 1
@@ -29,7 +23,7 @@ namespace VUSSK_GeneticEvolution
              4: 4 5*/
 
             //Run through our parent pairs, for half the length of the array, but jumping two steps each iteration
-            for (int i = 0; i < pBreedingPairs.Count / 2; i = i + 2)
+            for (int i = 0; i < pBreedingPairs.Count; i = i + 2)
             {
                 int[] childAChromosome = new int[pBreedingPairs[i].Chromosome.Length];
                 int[] childBChromosome = new int[pBreedingPairs[i].Chromosome.Length];
@@ -44,8 +38,12 @@ namespace VUSSK_GeneticEvolution
                     ProcessChromosome(crossoverIndex, pBreedingPairs, i, j, ref childAChromosome, ref childBChromosome);                    
                 }
 
-                children.Add(new GeneticEntity(childAChromosome, 0.0f));
-                children.Add(new GeneticEntity(childBChromosome, 0.0f));
+                //(T)Activator.CreateInstance(ObjectType);
+                //return (T)Activator.CreateInstance(typeof(T), args);
+                //https://stackoverflow.com/questions/25577601/constructor-on-type-not-found
+                //Array covariance constructor issue
+                children.Add((T)System.Activator.CreateInstance(typeof(T), new object[] { childAChromosome }));
+                children.Add((T)System.Activator.CreateInstance(typeof(T), new object[] { childBChromosome }));
             }
 
             return children;
@@ -64,7 +62,7 @@ namespace VUSSK_GeneticEvolution
             crossoverPoint = crossoverPoint == int.MinValue ? Random.Range(1, pChromosomeLength) : crossoverPoint;
         }
 
-        public virtual void ProcessChromosome(Vector2Int pCrossoverIndex, List<GeneticEntity> pBreedingPairs, int pParentPairIndex, int pGeneIndex, ref int[] pChildAChromosome, ref int[] pChildBChromosome)
+        public virtual void ProcessChromosome<T>(Vector2Int pCrossoverIndex, List<T> pBreedingPairs, int pParentPairIndex, int pGeneIndex, ref int[] pChildAChromosome, ref int[] pChildBChromosome) where T : GeneticEntity
         {
            
         }

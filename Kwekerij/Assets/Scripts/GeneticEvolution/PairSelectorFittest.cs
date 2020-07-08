@@ -27,10 +27,11 @@ namespace VUSSK_GeneticEvolution
         /// </summary>
         /// <param name="pPopulation"></param>
         /// <returns>List of GeneticEntity</returns>
-        public List<GeneticEntity> SelectPairs(List<GeneticEntity> pPopulation)
+        public List<T> SelectPairs<T>(List<T> pPopulation) where T : GeneticEntity
         {
-            TimSort<GeneticEntity>.sort(pPopulation.ToArray(), GeneticEntity.CompareFitness());
-            return pPopulation;
+            T[] popArray = pPopulation.ToArray();
+            TimSort<T>.sort(popArray, new GeneticEntityComparable());
+            return new List<T>(popArray);
         }
     }
 }

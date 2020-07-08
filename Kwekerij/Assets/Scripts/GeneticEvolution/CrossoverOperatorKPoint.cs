@@ -35,10 +35,11 @@ namespace VUSSK_GeneticEvolution
             crossoverPoints = crossoverPoints == null ? CreateCrossoverPoints(pChromosomeLength) : crossoverPoints;
         }
 
-        public override void ProcessChromosome(Vector2Int pCrossoverIndex, List<GeneticEntity> pBreedingPairs, int pParentPairIndex, int pGeneIndex, ref int[] pChildAChromosome, ref int[] pChildBChromosome)
+        public override void ProcessChromosome<T>(Vector2Int pCrossoverIndex, List<T> pBreedingPairs, int pParentPairIndex, int pGeneIndex, ref int[] pChildAChromosome, ref int[] pChildBChromosome)
         {
+            Debug.Log("gene index: " + pGeneIndex + " cros[" + timesCrossed + "]: " );
             //iterate the cross counter and invert the bool used for parent referencing
-            if (pGeneIndex == crossoverPoints[timesCrossed])
+            if (timesCrossed < numberOfCrosses && pGeneIndex == crossoverPoints[timesCrossed])
             {
                 timesCrossed++;
                 crossing = !crossing;

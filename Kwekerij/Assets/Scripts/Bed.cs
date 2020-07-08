@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using VUSSK_GeneticEvolution;
 
@@ -8,10 +9,28 @@ public class Bed : GeneticEntity
 {
     private Garden garden;
     private Patch[] patches = null;
-    public Bed(int[] pChromosome, float pFitness, Garden pGarden, Patch[] pPatches) : base(pChromosome, pFitness)
+    public Bed(int[] pChromosome, /*float pFitness,*/ Garden pGarden, Patch[] pPatches) : base(pChromosome/*, pFitness*/)
     {
         garden = pGarden;
         patches = pPatches;
+        ComputeFitness();
+    }
+
+    public Bed(int[] pChromosome) : base(pChromosome)
+    {
+
+    }
+
+    /// <summary>
+    /// Used for loading after instance has been constructed from elsewhere
+    /// </summary>
+    /// <param name="pGarden"></param>
+    /// <param name="pPatches"></param>
+    public void LoadGardenAndPatches(Garden pGarden, Patch[] pPatches)
+    {
+        garden = pGarden;
+        patches = pPatches;
+        ComputeFitness();
     }
     // Start is called before the first frame update
     void Start()
@@ -25,18 +44,25 @@ public class Bed : GeneticEntity
         
     }
 
+
     public override void ComputeFitness()
     {
+        if (garden == null || patches == null)
+        {
+            return;
+        }
+        Debug.Log("Bed compo");
         float overallFitness = 0.0f;
         const int TOTAL_FITNESS_PARAMETERS = 6;
+        //Debug.Log("----Bed");
         for (int i = 0; i < patches.Length; i++)
         {
             Soil soil = garden.Soil;
-            Patch pat = patches[i];
+            Patch patch = patches[i];
             Plant plant = garden.availableSpecies[Chromosome[i]];
 
-            float sunlightHoursFitness = DecimalFitness(pat.SunlightHours, plant.SunlightHours);
-            float sunlightStrengthFitness = DecimalFitness(pat.SunlightStrength, plant.SunlightStrength);
+            float sunlightHoursFitness = DecimalFitness(patch.SunlightHours, plant.SunlightHours);
+            float sunlightStrengthFitness = DecimalFitness(patch.SunlightStrength, plant.SunlightStrength);
             float pHFitness = DecimalFitness(soil.pH, plant.PHPreference);
             float clayFitness = DecimalFitness(soil.ClayPercentage, plant.ClayPercentage);
             float siltFitness = DecimalFitness(soil.SiltPercentage, plant.SiltPercentage);
@@ -46,11 +72,20 @@ public class Bed : GeneticEntity
             overallFitness += patchFitness;
         }
         overallFitness /= patches.Length;
-        UpdateFitness(overallFitness);
+        SetFitness(overallFitness);
     }
 
     private float DecimalFitness(float pTotal, float pAttained)
     {
-        return 1.0f - (pTotal - pAttained / pTotal);
+        float fitness = 1.0f - (pTotal - pAttained) / pTotal;
+        if (fitness > 1.0f)
+        {
+            fitness -= 1.0f;
+            fitness *= -1.0f;
+        }
+        return fitness;
     }
+
+    public Patch[] Patches
+    { get { return patches; } }
 }

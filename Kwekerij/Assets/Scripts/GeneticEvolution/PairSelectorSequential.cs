@@ -27,7 +27,7 @@ namespace VUSSK_GeneticEvolution
         /// </summary>
         /// <param name="pPopulation"></param>
         /// <returns>List of GeneticEntity</returns>
-        public List<GeneticEntity> SelectPairs(List<GeneticEntity> pPopulation)
+        public List<T> SelectPairs<T>(List<T> pPopulation) where T: GeneticEntity
         {
             return pPopulation;
         }

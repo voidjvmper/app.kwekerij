@@ -27,6 +27,12 @@ public class UIControl : MonoBehaviour
         
     }
 
+    public void UpdatePatch()
+    {
+        PatchArgs args = new PatchArgs(Mathf.CeilToInt(patchSunHours.value), Mathf.CeilToInt(patchSunStrength.value));
+        EventQueue.QueueEvent(EventQueue.EventType.Patch_Update, this, args);
+    }
+
     public void CalculateClay(bool pDisplayUpdate = false)
     {
         CalculateSoil(soilClay.value, 0, pDisplayUpdate);
@@ -80,5 +86,11 @@ public class UIControl : MonoBehaviour
         //SoilArgs args = new SoilArgs(new Vector4(pSoilComposition.x, pSoilComposition.y, pSoilComposition.z, pPH));
         SoilArgs args = new SoilArgs(new Vector4(soilClay.value, soilSilt.value, soilSand.value, pPH));
         EventQueue.QueueEvent(EventQueue.EventType.Soil_Update, this, args);
+    }
+
+    public void UpdateSun()
+    {
+        SunArgs args = new SunArgs(Mathf.CeilToInt(patchSunHours.value), Mathf.CeilToInt(patchSunStrength.value));
+        EventQueue.QueueEvent(EventQueue.EventType.Sun_Update, this, args);
     }
 }

@@ -27,13 +27,13 @@ namespace VUSSK_GeneticEvolution
         /// </summary>
         /// <param name="pPopulation"></param>
         /// <returns>List of GeneticEntity</returns>
-        public List<GeneticEntity> SelectPairs(List<GeneticEntity> pPopulation)
+        public List<T> SelectPairs<T>(List<T> pPopulation) where T : GeneticEntity
         {
             //Create a new list to return
-            List<GeneticEntity> pairGrouping = new List<GeneticEntity>();
-
+            List<T> pairGrouping = new List<T>();
+            T[] popArray = pPopulation.ToArray();
             //Sort by fittest
-            TimSort<GeneticEntity>.sort(pPopulation.ToArray(), GeneticEntity.CompareFitness());
+            TimSort<T>.sort(popArray, new GeneticEntityComparable());
 
             //0A     1C
             //2A     3D
@@ -43,7 +43,7 @@ namespace VUSSK_GeneticEvolution
             //10B    11H
 
 
-            for (int i = 0; i < pPopulation.Count; i++)
+            for (int i = 0; i < popArray.Length; i++)
             {
                 int index = i + 1;
 
@@ -51,7 +51,7 @@ namespace VUSSK_GeneticEvolution
                 if (i % 2 == 0)
                 {
                     //First half of pool
-                    if (i < pPopulation.Count / 2)
+                    if (i < popArray.Length / 2)
                     {
                         index = 0; //Prince A
                     }
@@ -63,11 +63,11 @@ namespace VUSSK_GeneticEvolution
                 }
               
 
-                pairGrouping.Add(pPopulation[index]);
+                pairGrouping.Add(popArray[index]);
             }
 
 
-            return pPopulation;
+            return pairGrouping;
         }
     }
 }

@@ -12,7 +12,7 @@ public class Plant : MonoBehaviour
     [SerializeField] private string plantName;
     [Range(0, 24)]
     [SerializeField] private int sunHours;
-    [Range(0, 3)]
+    [Range(1, 4)]
     [SerializeField] private int sunStrength;
     [Range(0, 14)]
     [SerializeField] private float pHPreference;
@@ -22,6 +22,9 @@ public class Plant : MonoBehaviour
     [SerializeField] private float siltPercentage;
     [Range(0, 100)]
     [SerializeField] private float sandPercentage;
+
+    public string PlantName
+    { get { return plantName; } }
 
     public int SunlightHours
     {

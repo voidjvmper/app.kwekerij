@@ -15,13 +15,16 @@ namespace VUSSK_GeneticEvolution
         //Phenotype: Decoded solution
         //Genotype: Encoded solution
 
-        public static List<GeneticEntity> Evolve(ref List<GeneticEntity> pPopulation, int pEvolvedPopulationSize, IMatingPoolSelector pPoolSelector, IBreedingPairSelector pPairSelector, ICrossoverOperator pOperator)
+        public static List<T> Evolve<T>(List<T> pPopulation, int pEvolvedPopulationSize, IMatingPoolSelector pPoolSelector, IBreedingPairSelector pPairSelector, ICrossoverOperator pOperator) where T: GeneticEntity
         {
-            List<GeneticEntity> evolvedPopulation = new List<GeneticEntity>();
+            List<T> evolvedPopulation; 
             evolvedPopulation = pPoolSelector.SelectPool(pPopulation, pEvolvedPopulationSize);
+            Debug.Log("Evolving pop step 1: " + evolvedPopulation[0].Fitness);
             evolvedPopulation = pPairSelector.SelectPairs(evolvedPopulation);
+            Debug.Log("Evolving pop step 2: " + evolvedPopulation[0].Fitness);
             evolvedPopulation = pOperator.Crossover(evolvedPopulation);
-            
+            Debug.Log("Evolving pop step 3: " + evolvedPopulation[0].Fitness);
+
             return evolvedPopulation;
         }
 

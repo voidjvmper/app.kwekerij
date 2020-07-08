@@ -27,27 +27,28 @@ namespace VUSSK_GeneticEvolution
         /// </summary>
         /// <param name="pPopulation"></param>
         /// <returns>List of GeneticEntity</returns>
-        public List<GeneticEntity> SelectPairs(List<GeneticEntity> pPopulation)
+        public List<T> SelectPairs<T>(List<T> pPopulation) where T: GeneticEntity
         {
             //Create a new list to return
-            List<GeneticEntity> pairGrouping = new List<GeneticEntity>();
+            List<T> pairGrouping = new List<T>();
 
+            T[] popArray = pPopulation.ToArray();
             //Sort our pool by entity fitness
-            TimSort<GeneticEntity>.sort(pPopulation.ToArray(), GeneticEntity.CompareFitness());
+            TimSort<T>.sort(popArray, new GeneticEntityComparable());
 
             //Loop through the pool 
-            for (int i = 0; i < pPopulation.Count; i++)
+            for (int i = 0; i < popArray.Length; i++)
             {
                 //Our chosen index will be i / 2 (the fittest) on even numbers while the least fittest 
                 //on odd numbers, using list.count - 1 (accounting for zero-indexing) minus 
                 //the loop's iteration                
                 int index = i % 2 == 0 ?
                     (i / 2) :
-                    (pPopulation.Count - 1) - i;
+                    (popArray.Length - 1) - i;
 
-                pairGrouping.Add(pPopulation[index]);
+                pairGrouping.Add(popArray[index]);
             }
-            return pPopulation;
+            return pairGrouping;
         }
     }
 }

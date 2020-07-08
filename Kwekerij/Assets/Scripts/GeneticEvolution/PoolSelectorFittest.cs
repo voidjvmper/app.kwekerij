@@ -22,17 +22,11 @@ namespace VUSSK_GeneticEvolution
         /// <param name="pPopulation"></param>
         /// <param name="pSize"></param>
         /// <returns>List of GeneticEntity</returns>
-        public List<GeneticEntity> SelectPool(List<GeneticEntity> pPopulation, int pSize)
+        public List<T> SelectPool<T>(List<T> pPopulation, int pSize) where T: GeneticEntity
         {
-            List<GeneticEntity> matingPool = new List<GeneticEntity>();
-            TimSort<GeneticEntity>.sort(matingPool.ToArray(), GeneticEntity.CompareFitness());
-            for (int i = 0; i < pPopulation.Count; i++)
-            {
-                
-                
-            }
-            
-            return matingPool;
+            T[] matingArray = pPopulation.ToArray();
+            TimSort<T>.sort(matingArray, new GeneticEntityComparable());
+            return new List<T>(matingArray);
         }
 
     }

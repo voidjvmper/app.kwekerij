@@ -4,15 +4,16 @@ using UnityEngine;
 
 namespace VUSSK_GeneticEvolution
 {
-    public class GeneticEntity : IComparer
+    public class GeneticEntity 
     {
         private int[] chromosome;
         protected float fitness;
 
-        public GeneticEntity(int[] pChromosome, float pFitness)
+        public GeneticEntity(int[] pChromosome/*, float pFitness*/)
         {
             chromosome = pChromosome;
-            fitness = pFitness;
+            /*fitness = pFitness;*/
+            ComputeFitness();
         }
 
         private GeneticEntity()
@@ -25,24 +26,19 @@ namespace VUSSK_GeneticEvolution
 
         public float Fitness
         { get { return fitness; } }
-        
-        public static IComparer<GeneticEntity> CompareFitness()
-        {
-            return (IComparer<GeneticEntity>)new GeneticEntity();
-        }
+  
 
         public virtual void ComputeFitness()
         {
-
+            Debug.Log("Nada.");
         }
 
-        protected void UpdateFitness(float pFitness)
+        protected void SetFitness(float pFitness)
         {
             fitness = pFitness;
         }
         public static int[] GenerateRandomChromosome(Vector2Int pMinMax, int pLength, int pRandomSeed)
-        {
-            Random.InitState(pRandomSeed);
+        {            
             int[] chromosome = new int[pLength];
             for (int i = 0; i < chromosome.Length; i++)
             {
@@ -51,29 +47,11 @@ namespace VUSSK_GeneticEvolution
             return chromosome;
         }
 
-        public int Compare(object a, object b)
+        public static void SeedRandom(int pRandomSeed)
         {
-            int output = int.MaxValue;
-
-            GeneticEntity gA = (GeneticEntity)a;
-            GeneticEntity gB = (GeneticEntity)b;
-            if (gA.Fitness > gB.Fitness)
-            {
-                output = 1;
-            }
-
-            if (gA.Fitness < gB.Fitness)
-            {
-                output = -1;
-            }
-
-            if (gA.Fitness == gB.Fitness)
-            {
-                output = 0;
-            }
-
-            return output;
+            Random.InitState(pRandomSeed);
         }
+      
     }
 
 }

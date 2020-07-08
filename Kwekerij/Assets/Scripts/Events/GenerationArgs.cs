@@ -6,16 +6,18 @@ using VUSSK_GeneticEvolution;
 
 namespace Shop.Events
 {
-    public class GenerationArgs : EventArgs
+    public class GenerationArgs<T> : EventArgs
     {
-        public List<GeneticEntity> population;
+        public List<T> population;
         public float high;
         public float average;
-        public GenerationArgs(List<GeneticEntity> pPopulation, float pHigh, float pAverage)
+        public int generationNumber;
+        public GenerationArgs(List<T> pPopulation, float pHigh, float pAverage, int pGenerationNumber) 
         {
             population = pPopulation;
             high = pHigh;
             average = pAverage;
+            generationNumber = pGenerationNumber;
         }
     }
 }

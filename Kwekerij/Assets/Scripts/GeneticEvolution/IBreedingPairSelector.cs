@@ -6,6 +6,6 @@ namespace VUSSK_GeneticEvolution
 {
     public interface IBreedingPairSelector
     {
-        List<GeneticEntity> SelectPairs(List<GeneticEntity> pBreedingPairs);
+        List<T> SelectPairs<T>(List<T> pBreedingPairs) where T: GeneticEntity;
     }
 }

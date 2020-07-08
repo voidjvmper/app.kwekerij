@@ -6,6 +6,6 @@ namespace VUSSK_GeneticEvolution
 {
     public interface IMatingPoolSelector
     {
-        List<GeneticEntity> SelectPool(List<GeneticEntity> pPopulation, int pSize);
+        List<T> SelectPool<T>(List<T> pPopulation, int pSize) where T: GeneticEntity;
     }
 }
