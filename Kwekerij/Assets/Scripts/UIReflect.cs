@@ -32,8 +32,12 @@ public class UIReflect : MonoBehaviour
     [SerializeField] private Image generationAvgSliderFill;
     [SerializeField] private Text generationCounter;
 
+    [SerializeField] private Image loadingIcon;
+
     private int generationNumber;
     private string[] sunStrengthText = new string[]{ "Low", "Filtered", "Bright", "Outdoors" };
+    private delegate void Updateables();
+    private Updateables UpdateablesHandler;
 
     // Start is called before the first frame update
     void Start()
@@ -50,19 +54,30 @@ public class UIReflect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateablesHandler?.Invoke();
+        if (Input.GetKey(KeyCode.W))
+        {
+            SpinLoadingIcon();
+        }
+    }
+
+    private void SpinLoadingIcon()
+    {
+        loadingIcon.transform.Rotate(new Vector3(0.0f, 0.0f, 1.0f));
     }
     private void BeginPlot(object sender, EventArgs e)
     {
         progressOutput.color = swatch[1];
         progressOutput.text = "Running...";
         EventQueue.QueueEvent(EventQueue.EventType.Plot_Start, this, new EventArgs());
+        UpdateablesHandler += SpinLoadingIcon;
     }
 
     private void EndPlot(object sender, EventArgs e)
     {
         progressOutput.color = swatch[2];
         progressOutput.text = "Completed.";
+        UpdateablesHandler -= SpinLoadingIcon;
 
         //Formats text for second or millisecond display
         const int MILLISECONDS = 1000;
