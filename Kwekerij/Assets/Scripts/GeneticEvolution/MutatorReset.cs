@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MutatorReset : MonoBehaviour
+namespace VUSSK_GeneticEvolution
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public class MutatorReset : Mutator
     {
-        
+
+        protected override int[] InternalMutate<T>(T pEntity) 
+        {
+            int mutatedGeneIndex = Random.Range(0, pEntity.Chromosome.Length);
+            int newMutationAllele = Random.Range((int)pEntity.AlleleLowerLimit, (int)pEntity.AlleleUpperLimit);
+            int[] mutatedChromosome = pEntity.Chromosome;
+            mutatedChromosome[mutatedGeneIndex] = newMutationAllele;
+            return mutatedChromosome;
+        }
     }
 }

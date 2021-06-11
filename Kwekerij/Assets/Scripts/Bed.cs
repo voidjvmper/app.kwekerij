@@ -9,14 +9,14 @@ public class Bed : GeneticEntity
 {
     private Garden garden;
     private Patch[] patches = null;
-    public Bed(int[] pChromosome, /*float pFitness,*/ Garden pGarden, Patch[] pPatches) : base(pChromosome/*, pFitness*/)
+    public Bed(int[] pChromosome, Vector2Int pAcceptedAlleleRange,/*float pFitness,*/ Garden pGarden, Patch[] pPatches) : base(pChromosome, pAcceptedAlleleRange/*, pFitness*/)
     {
         garden = pGarden;
         patches = pPatches;
         ComputeFitness();
     }
 
-    public Bed(int[] pChromosome) : base(pChromosome)
+    public Bed(int[] pChromosome, Vector2Int pAcceptedAlleleRange) : base(pChromosome, pAcceptedAlleleRange)
     {
 
     }
@@ -51,7 +51,7 @@ public class Bed : GeneticEntity
         {
             return;
         }
-        Debug.Log("Bed compo");
+        //Debug.Log("Bed compo");
         float overallFitness = 0.0f;
         const int TOTAL_FITNESS_PARAMETERS = 6;
         //Debug.Log("----Bed");

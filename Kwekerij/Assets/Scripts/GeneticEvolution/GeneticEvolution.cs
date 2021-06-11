@@ -15,17 +15,42 @@ namespace VUSSK_GeneticEvolution
         //Phenotype: Decoded solution
         //Genotype: Encoded solution
 
-        public static List<T> Evolve<T>(List<T> pPopulation, int pEvolvedPopulationSize, IMatingPoolSelector pPoolSelector, IBreedingPairSelector pPairSelector, ICrossoverOperator pOperator) where T: GeneticEntity
+        public static List<T> Evolve<T>(List<T> pPopulation, int pEvolvedPopulationSize, IMatingPoolSelector pPoolSelector, IBreedingPairSelector pPairSelector, ICrossoverOperator pOperator, IMutator pMutator) where T: GeneticEntity
         {
-            List<T> evolvedPopulation; 
-            evolvedPopulation = pPoolSelector.SelectPool(pPopulation, pEvolvedPopulationSize);
-            Debug.Log("Evolving pop step 1: " + evolvedPopulation[0].Fitness);
-            evolvedPopulation = pPairSelector.SelectPairs(evolvedPopulation);
-            Debug.Log("Evolving pop step 2: " + evolvedPopulation[0].Fitness);
-            evolvedPopulation = pOperator.Crossover(evolvedPopulation);
-            Debug.Log("Evolving pop step 3: " + evolvedPopulation[0].Fitness);
+            List<T> pooledPop = new List<T>();
+            List<T> pairedPop = new List<T>();
+            List<T> crossedPop = new List<T>();
+            List<T> mutatedPop = new List<T>();
 
-            return evolvedPopulation;
+            int stepCount = 1;
+
+            //Select Pool
+            pooledPop = pPoolSelector.SelectPool(pPopulation, pEvolvedPopulationSize);
+            OutputStep(pooledPop, stepCount, "pooling");           
+            stepCount++;
+
+            //Select Pairs
+            pairedPop = pPairSelector.SelectPairs(pooledPop);
+            OutputStep(pairedPop, stepCount, "pairing");            
+            stepCount++;
+
+            //Crossover
+            crossedPop = pOperator.Crossover(pairedPop);
+            OutputStep(crossedPop, stepCount, "crossing");            
+            stepCount++;
+
+            //Mutate
+            mutatedPop = pMutator.Mutate(crossedPop);
+            OutputStep(pooledPop, stepCount, "mutating");            
+            stepCount++;
+
+            return mutatedPop;
+        }
+
+        public static void OutputStep<T>(List<T> pPopulation, int pStepCount, string pIdentifier) where T : GeneticEntity
+        {
+            string stepText = "(Evolving pop step " + pStepCount + " (" + pIdentifier + ")) - Size: " + pPopulation.Count + " | Fitness: " + pPopulation[0].Fitness;
+            //Debug.Log(stepText);
         }
 
     }

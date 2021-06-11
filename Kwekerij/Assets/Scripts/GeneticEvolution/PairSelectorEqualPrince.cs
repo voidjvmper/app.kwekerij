@@ -4,12 +4,13 @@ using UnityEngine;
 using TimSort;
 
 namespace VUSSK_GeneticEvolution
-{
+{   
     /// <summary>
     /// This Breeding Pair Selector creates a set of pairs where the even numbers alternate between the two fittest parents, while the odd numbers descend sequentially through the remaining fittest entities.
     /// </summary>
     public class PairSelectorEqualPrince : IBreedingPairSelector
-    {
+    {        
+
         // Start is called before the first frame update
         void Start()
         {
@@ -46,9 +47,15 @@ namespace VUSSK_GeneticEvolution
             pairGrouping.Add(popArray[0]);
             pairGrouping.Add(popArray[1]);
 
-            for (int i = 2; i < popArray.Length; i++)
-            {
-                int index = i;
+            int princelyOffset = 2;
+
+            //The first of the remaining population after the princes
+            int index = princelyOffset + 1;
+
+            int lengthOfPairing = (popArray.Length - princelyOffset) * 2; 
+
+            for (int i = princelyOffset; i < lengthOfPairing; i++)
+            {                
                 //If even
                 if (i % 2 == 0)
                 {
@@ -59,6 +66,10 @@ namespace VUSSK_GeneticEvolution
                     {
                         index = 1; //Prince B
                     }
+                }
+                else
+                {
+                    index++;
                 }
 
                 pairGrouping.Add(popArray[index]);

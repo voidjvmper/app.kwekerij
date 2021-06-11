@@ -2,17 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MutatorScramble : MonoBehaviour
+namespace VUSSK_GeneticEvolution
 {
-    // Start is called before the first frame update
-    void Start()
+    public class MutatorScramble : Mutator
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+
+        protected override int[] InternalMutate<T>(T pEntity)
+        {
+            int rangeIndexA = Random.Range(0, pEntity.Chromosome.Length);
+
+            //Start from A's end, wrap if longer
+            int rangeIndexB = Random.Range(rangeIndexA, (pEntity.Chromosome.Length + rangeIndexA));
+
+            //But first, before the modulo, calculate a length
+            int rangeLength = rangeIndexB - rangeIndexA;
+            rangeIndexB = rangeIndexB % pEntity.Chromosome.Length;
+
+            List<int> mutatingRange = new List<int>();
+            for (int i = rangeIndexA; i < rangeLength; i++)
+            {
+                mutatingRange.Add(pEntity.Chromosome[i % pEntity.Chromosome.Length]);
+            }
+
+            //Shuffle
+            Shuffler.Shuffle(ref mutatingRange);
+
+            int[] mutatedChromosome = pEntity.Chromosome;
+
+            for (int i = 0; i < rangeLength; i++)
+            {
+                mutatedChromosome[(i + rangeIndexA) % mutatedChromosome.Length] = mutatingRange[i];                
+            }
+
+            return mutatedChromosome;
+        }
     }
 }
+

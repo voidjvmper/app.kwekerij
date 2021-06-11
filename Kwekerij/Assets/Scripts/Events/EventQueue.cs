@@ -126,12 +126,18 @@ namespace Shop.Events
             typeHandlerPair[pType] += pHandler;
         }
 
+        public static void Unsubscribe(EventType pType, EventHandler pHandler)
+        {
+            InitialisationSafeguard();
+            typeHandlerPair[pType] -= pHandler;
+        }
+
         public static void Update()
         {
             if (queueHead == queueTail) { return; }
             EventDetails current = pendingEvents[queueHead];
             typeHandlerPair[current.EventTypes]?.Invoke(current.Sender, current.Args);
-            Debug.Log("Event Processed, Type: " + current.EventTypes.ToString());
+            //Debug.Log("Event Processed, Type: " + current.EventTypes.ToString());
             queueHead = (queueHead + 1) % MAX_QUEUE_SIZE;
         }
 

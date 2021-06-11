@@ -32,6 +32,8 @@ public class UIReflect : MonoBehaviour
     [SerializeField] private Image generationAvgSliderFill;
     [SerializeField] private Text generationCounter;
 
+    [SerializeField] private Text testIterationCounter;
+
     [SerializeField] private Image loadingIcon;
 
     private int generationNumber;
@@ -49,6 +51,16 @@ public class UIReflect : MonoBehaviour
         EventQueue.Subscribe(EventQueue.EventType.Plot_End, EndPlot);
         EventQueue.Subscribe(EventQueue.EventType.Plot_Reset, ResetPlot);
         EventQueue.Subscribe(EventQueue.EventType.BroadcastGeneration, BroadcastGeneration);
+    }
+
+    private void OnDestroy()
+    {
+        EventQueue.Unsubscribe(EventQueue.EventType.Soil_Update, UpdateSoilOutputs);
+        EventQueue.Unsubscribe(EventQueue.EventType.Sun_Update, UpdateSunOutputs);
+        EventQueue.Unsubscribe(EventQueue.EventType.BroadcastBeginGenerating, BeginPlot);
+        EventQueue.Unsubscribe(EventQueue.EventType.Plot_End, EndPlot);
+        EventQueue.Unsubscribe(EventQueue.EventType.Plot_Reset, ResetPlot);
+        EventQueue.Unsubscribe(EventQueue.EventType.BroadcastGeneration, BroadcastGeneration);
     }
 
     // Update is called once per frame
@@ -74,7 +86,7 @@ public class UIReflect : MonoBehaviour
     }
 
     private void EndPlot(object sender, EventArgs e)
-    {
+    {       
         progressOutput.color = swatch[2];
         progressOutput.text = "Completed.";
         UpdateablesHandler -= SpinLoadingIcon;
@@ -119,13 +131,16 @@ public class UIReflect : MonoBehaviour
     private void BroadcastGeneration(object sender, EventArgs e)
     {
         GenerationArgs<Bed> arg = (GenerationArgs<Bed>)e;
+
+        testIterationCounter.text = arg.testIterations.ToString();
+
         for (int i = 0; i < arg.population.Count; i++)
         {
-            Debug.Log(String.Format("Bed {0}.", i));
+            //Debug.Log(String.Format("Bed {0}.", i));
             Patch[] patches = arg.population[i].Patches;
             for (int j = 0; j < patches.Length; j++)
             {
-                Debug.Log(String.Format("Patch Square {0}. Output: {1}", j, arg.population[i].Chromosome[j]));
+                //Debug.Log(String.Format("Patch Square {0}. Output: {1}", j, arg.population[i].Chromosome[j]));
             }
            
         }

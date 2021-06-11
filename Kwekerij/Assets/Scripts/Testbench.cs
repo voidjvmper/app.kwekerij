@@ -6,9 +6,14 @@ using VUSSK_GeneticEvolution;
 
 public class Testbench : MonoBehaviour
 {
-    [Serializable] public enum CrossoverOperatorLoad { OnePoint, KPoint, Uniform, WholeArithmetic, SimpleArithmetic, SingleArithmetic };
-    public enum MatingPoolSelectorLoad { Fittest, Full, Random };
-    public enum BreedingPairSelectorLoad { AlphaA, EqualPrince, UnequalPrince, Equity, Fittest, NarrowRandom, Sequential };
+    [Serializable] public enum CrossoverOperatorLoad { OnePoint, KPoint, Uniform, WholeArithmetic, SimpleArithmetic, SingleArithmetic, TOTAL };
+    public enum MatingPoolSelectorLoad { Fittest, Full, Random, TOTAL };
+    public enum BreedingPairSelectorLoad { AlphaA, EqualPrince, UnequalPrince, Equity, Fittest, NarrowRandom, Sequential, TOTAL };
+
+    public enum MutatorLoad { BitFlip, Invert, Reset, Scramble, Swap, TOTAL };
+
+    [SerializeField] private uint alleleLowerLimit;
+    [SerializeField] private uint alleleUpperLimit;
 
     [SerializeField]
     private CrossoverOperatorLoad crossoverOperator;
@@ -19,19 +24,41 @@ public class Testbench : MonoBehaviour
     [SerializeField]
     private BreedingPairSelectorLoad breedingPairSelector;
 
+    [SerializeField]
+    private MutatorLoad mutator;
+
+    [SerializeField]
+    private uint targetFramerate;
+
     private ICrossoverOperator rtnCrossoverOperator;
     private IMatingPoolSelector rtnMatingPoolSelector;
     private IBreedingPairSelector rtnBreedingPairSelector;
+    private IMutator rtnMutator;
+
     // Start is called before the first frame update
     void Start()
     {
-      
+        Application.targetFrameRate = (int)targetFramerate;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetCrossoverOperator(CrossoverOperatorLoad pCO)
     {
-        
+        crossoverOperator = pCO;
+    }
+
+    public void SetMatingPoolSelector(MatingPoolSelectorLoad pMPS)
+    {
+        matingPoolSelector = pMPS;
+    }
+
+    public void SetBreedingPairSelector(BreedingPairSelectorLoad pBPS)
+    {
+        breedingPairSelector = pBPS;
+    }
+
+    public void SetMutator(MutatorLoad pM)
+    {
+        mutator = pM;
     }
 
     public ICrossoverOperator CrossoverOperator
@@ -43,6 +70,8 @@ public class Testbench : MonoBehaviour
     public IBreedingPairSelector BreedingPairSelector
     { get { return GetUsedBreedingPairSelector(); } }
 
+    public IMutator Mutator
+    { get { return GetUsedMutator(); } }
     
     public ICrossoverOperator GetUsedCrossoverOperator()
     {
@@ -123,5 +152,41 @@ public class Testbench : MonoBehaviour
                 break;
         }
         return rtnBreedingPairSelector;
+    }
+
+    public IMutator GetUsedMutator()
+    {
+        switch (mutator)
+        {
+            case MutatorLoad.BitFlip:
+                rtnMutator = new MutatorBitFlip();
+                break;
+            case MutatorLoad.Invert:
+                rtnMutator = new MutatorInvert();
+                break;
+            case MutatorLoad.Reset:
+                rtnMutator = new MutatorReset();
+                break;
+            case MutatorLoad.Scramble:
+                rtnMutator = new MutatorScramble();
+                break;
+            case MutatorLoad.Swap:
+                rtnMutator = new MutatorSwap();
+                break;
+            default:
+                rtnMutator = new MutatorReset();
+                break;
+        }
+        return rtnMutator;
+    }
+
+    public uint AlleleLower
+    {
+        get { return alleleLowerLimit; }
+    }
+
+    public uint AlleleUpper
+    {
+        get { return alleleUpperLimit; }
     }
 }

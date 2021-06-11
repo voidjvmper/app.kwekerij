@@ -14,13 +14,13 @@ public static class TimeLogger
     public static void LogStart()
     {
         start = Environment.TickCount;
-        Debug.Log("Start: " + start);
+        //Debug.Log("Start: " + start);
     }
 
     public static void LogEnd()
     {
         end = Environment.TickCount;
-        Debug.Log("End: " + end);
+        //Debug.Log("End: " + end);
     }
 
    
@@ -31,6 +31,6 @@ public static class TimeLogger
     }
     public static int Elapsed
     {
-        get { Debug.Log("Elapsed on calc: " + CalculateElapsed()); return CalculateElapsed(); }
+        get { /*Debug.Log("Elapsed on calc: " + CalculateElapsed());*/ return CalculateElapsed(); }
     }
 }

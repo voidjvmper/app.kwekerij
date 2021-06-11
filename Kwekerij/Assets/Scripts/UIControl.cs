@@ -31,6 +31,8 @@ public class UIControl : MonoBehaviour
     {
         PatchArgs args = new PatchArgs(Mathf.CeilToInt(patchSunHours.value), Mathf.CeilToInt(patchSunStrength.value));
         EventQueue.QueueEvent(EventQueue.EventType.Patch_Update, this, args);
+
+        
     }
 
     public void CalculateClay(bool pDisplayUpdate = false)
@@ -55,7 +57,8 @@ public class UIControl : MonoBehaviour
 
     public void CalculateSoil(float pValue, int pOffset, bool pDisplayUpdate)
     {
-        float[] modifiers =   { pValue * 1.0f,
+        
+            float[] modifiers =   { pValue * 1.0f,
                                 100.0f - pValue,
                                 100.0f - (pValue / 2.0f)
                               };
@@ -71,10 +74,10 @@ public class UIControl : MonoBehaviour
         }
 
         //Gets around the update to the slider's value firing another OnValueChanged event, looping the process
-        if (pDisplayUpdate)
-        {
+        //if (pDisplayUpdate)
+        //{
             UpdateSoil(newSoilComposition, soil_pH.value);
-        }
+        //}
     }
 
     public void UpdateSoil(Vector3 pSoilComposition, float pPH)

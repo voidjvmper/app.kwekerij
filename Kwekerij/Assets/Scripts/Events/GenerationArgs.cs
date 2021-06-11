@@ -12,12 +12,14 @@ namespace Shop.Events
         public float high;
         public float average;
         public int generationNumber;
-        public GenerationArgs(List<T> pPopulation, float pHigh, float pAverage, int pGenerationNumber) 
+        public int testIterations;
+        public GenerationArgs(List<T> pPopulation, float pHigh, float pAverage, int pGenerationNumber, int pTestIterations = 0) 
         {
             population = pPopulation;
             high = pHigh;
             average = pAverage;
             generationNumber = pGenerationNumber;
+            testIterations = pTestIterations;
         }
     }
 }

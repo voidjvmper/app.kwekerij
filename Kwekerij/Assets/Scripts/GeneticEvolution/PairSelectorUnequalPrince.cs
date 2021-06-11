@@ -10,6 +10,7 @@ namespace VUSSK_GeneticEvolution
     /// </summary>
     public class PairSelectorUnequalPrince : IBreedingPairSelector
     {
+        private const int princeOffset = 2; 
         // Start is called before the first frame update
         void Start()
         {
@@ -32,6 +33,7 @@ namespace VUSSK_GeneticEvolution
             //Create a new list to return
             List<T> pairGrouping = new List<T>();
             T[] popArray = pPopulation.ToArray();
+
             //Sort by fittest
             TimSort<T>.sort(popArray, new GeneticEntityComparable());
 
@@ -42,28 +44,53 @@ namespace VUSSK_GeneticEvolution
             //8B     9G
             //10B    11H
 
+             //Debug.Log("pairGrouping size is: " + pairGrouping.Count);
+            //Partner index is for the non-prince partner of the breeding pair
+            int partnerIndex = princeOffset;
 
-            for (int i = 0; i < popArray.Length; i++)
+            //Prince index controls which prince is plugged in
+            int princeIndex = 0;
+
+            //Index is what gets plugged to the list
+            int index = 0;
+
+            //The pairing should exclude the two princes, and be equal to the remaining partners x2 
+            //(since each partner needs the following slot to be filled by a prince)
+            int lengthOfPairing = (popArray.Length - partnerIndex) * 2;
+
+            //Debug.Log("poparray: " + popArray.Length);
+            for (int i = 0; i < lengthOfPairing; i++)
             {
-                int index = i + 1;
+                //int index = i + 2;
 
-                //If even
-                if (i % 2 == 0)
+                //To avoid duplication, we assume partner status and negate and switch to prince if need be
+                index = partnerIndex;
+
+                //If odd
+                if (i % 1 == 0)
                 {
                     //First half of pool
                     if (i < popArray.Length / 2)
                     {
-                        index = 0; //Prince A
+                        princeIndex = 0; //Prince A
                     }
                     //Latter half of pool
                     else
                     {
-                        index = 1; //Prince B
+                        princeIndex = 1; //Prince B
                     }
+                    index = princeIndex;                    
                 }
-              
+                else
+                {
+                    partnerIndex++;
+                }
 
-                pairGrouping.Add(popArray[index]);
+                
+
+                //Debug.Log("i is: " + i + " while index is: " + index);
+                //There is an unfixed OutOfRangeException here
+                pairGrouping.Add( popArray[index]);
             }
 
 

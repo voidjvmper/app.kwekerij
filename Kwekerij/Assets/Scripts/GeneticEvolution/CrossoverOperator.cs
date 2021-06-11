@@ -42,11 +42,30 @@ namespace VUSSK_GeneticEvolution
                 //return (T)Activator.CreateInstance(typeof(T), args);
                 //https://stackoverflow.com/questions/25577601/constructor-on-type-not-found
                 //Array covariance constructor issue
-                children.Add((T)System.Activator.CreateInstance(typeof(T), new object[] { childAChromosome }));
-                children.Add((T)System.Activator.CreateInstance(typeof(T), new object[] { childBChromosome }));
+
+                //---DEPRECATED---
+
+                //children.Add((T)System.Activator.CreateInstance(typeof(T), new object[] { childAChromosome }));
+                //children.Add((T)System.Activator.CreateInstance(typeof(T), new object[] { childBChromosome }));
+
+                //Instead of trying to use System.Activator to create a new GE instance for the children
+                //since we loose access to testbench and allele data
+                //just overwrite parent A's chromosome with child A's, and do the same for B's
+
+                //Parent A
+                for (int j = 0; j < pBreedingPairs[i].Chromosome.Length; j++)
+                {
+                    pBreedingPairs[i].Chromosome[j] = childAChromosome[j];
+                }
+
+                //Parent B
+                for (int j = 0; j < pBreedingPairs[i].Chromosome.Length; j++)
+                {
+                    pBreedingPairs[i + 1].Chromosome[j] = childBChromosome[j];
+                }
             }
 
-            return children;
+            return pBreedingPairs;
         }
 
         /// <summary>

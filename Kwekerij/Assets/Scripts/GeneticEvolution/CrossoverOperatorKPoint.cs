@@ -37,7 +37,7 @@ namespace VUSSK_GeneticEvolution
 
         public override void ProcessChromosome<T>(Vector2Int pCrossoverIndex, List<T> pBreedingPairs, int pParentPairIndex, int pGeneIndex, ref int[] pChildAChromosome, ref int[] pChildBChromosome)
         {
-            Debug.Log("gene index: " + pGeneIndex + " cros[" + timesCrossed + "]: " );
+            //Debug.Log("gene index: " + pGeneIndex + " cros[" + timesCrossed + "]: " );
             //iterate the cross counter and invert the bool used for parent referencing
             if (timesCrossed < numberOfCrosses && pGeneIndex == crossoverPoints[timesCrossed])
             {
